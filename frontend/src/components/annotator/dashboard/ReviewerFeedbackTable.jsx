@@ -16,13 +16,14 @@ const ReviewerFeedbackTable = ({ data = [], loading }) => {
                   <th>Task</th>
                   <th>Error Type</th>
                   <th>Comment</th>
+                  <th>Returned Date</th>
                 </tr>
               </thead>
 
               <tbody>
                 {loading && (
                   <tr>
-                    <td colSpan="3" className="text-center text-muted">
+                    <td colSpan="4" className="text-center text-muted">
                       Loading reviewer feedback...
                     </td>
                   </tr>
@@ -30,7 +31,7 @@ const ReviewerFeedbackTable = ({ data = [], loading }) => {
 
                 {!loading && data.length === 0 && (
                   <tr>
-                    <td colSpan="3" className="text-center text-muted">
+                    <td colSpan="4" className="text-center text-muted">
                       No reviewer feedback available
                     </td>
                   </tr>
@@ -39,9 +40,28 @@ const ReviewerFeedbackTable = ({ data = [], loading }) => {
                 {!loading &&
                   data.map((task) => (
                     <tr key={task.assignmentId}>
-                      <td>#TASK-{task.assignmentId}</td>
-                      <td>{task.errorType || "—"}</td>
-                      <td>{task.reviewComment || "—"}</td>
+                      <td>
+                        <div className="fw-bold">#TASK-{task.assignmentId}</div>
+                        <div
+                          style={{ fontSize: "11px" }}
+                          className="text-muted"
+                        >
+                          {task.projectName || "N/A"}
+                        </div>
+                      </td>
+                      <td>
+                        <span className="badge bg-danger text-white">
+                          {task.errorCategory || "Returned"}
+                        </span>
+                      </td>
+                      <td className="text-wrap" style={{ maxWidth: "300px" }}>
+                        {task.rejectReason || "No comment provided"}
+                      </td>
+                      <td>
+                        {task.deadline
+                          ? new Date(task.deadline).toLocaleDateString("vi-VN")
+                          : "N/A"}
+                      </td>
                     </tr>
                   ))}
               </tbody>

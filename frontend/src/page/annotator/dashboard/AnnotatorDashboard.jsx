@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useAnnotatorDashboard from "../../../hooks/annotator/dashboard/useAnnotatorDashboard";
 import DashboardLayout from "../../../components/layouts/DashboardLayout";
 import StatCard from "../../../components/annotator/dashboard/StatCard";
@@ -13,21 +13,31 @@ const AnnotatorDashboard = () => {
 
   const dashboardStats = stats.data || [];
 
-  console.log("reviewer", reviewerFeedback);
+  console.log("profile", profile);
+
+  console.log("dashboardStats", dashboardStats);
+
+  console.log("reviewerFeedback", reviewerFeedback);
+
+  console.log("tasksByProject", tasksByProject);
+
+  useEffect(() => {
+    if (projects.data && projects.data.length > 0 && !projectId) {
+      setProjectId(projects.data[0].id);
+    }
+  }, [projects.data]);
 
   return (
     <DashboardLayout title="My Dashboard" className="page-content">
-      <h4>Welcome, {profile.data?.name}</h4>
-
-      {/* KPI */}
-      <div className="row">
+      <h4>Welcome, {profile?.data?.fullName}</h4>
+      <div className="row row-cols-1 row-cols-md-3 row-cols-xl-5 g-4 justify-content-center">
         <StatCard title="Assigned" value={dashboardStats.totalAssigned} />
+        <StatCard title="Submitted" value={dashboardStats.submitted} />
         <StatCard title="In Progress" value={dashboardStats.inProgress} />
         <StatCard title="Pending Review" value={dashboardStats.pendingReview} />
         <StatCard title="Returned" value={dashboardStats.returned} />
       </div>
 
-      {/* My Assigned Tasks */}
       <div className="row mt-4">
         <div className="col-12">
           <div className="card">
@@ -56,7 +66,7 @@ const AnnotatorDashboard = () => {
               </div>
 
               <TaskTable
-                loading={tasksByProject.isLoading}
+                loading={tasksByProject.isLoading || tasksByProject.isFetching}
                 data={tasksByProject.data || []}
               />
             </div>
@@ -64,10 +74,9 @@ const AnnotatorDashboard = () => {
         </div>
       </div>
 
-      {/* Reviewer Feedback – ĐỘC LẬP */}
       <ReviewerFeedbackTable
         loading={reviewerFeedback.isLoading}
-        data={reviewerFeedback.data?.data || []}
+        data={reviewerFeedback.data || []}
       />
     </DashboardLayout>
   );

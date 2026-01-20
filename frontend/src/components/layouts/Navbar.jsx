@@ -188,6 +188,15 @@ const Navbar = () => {
                       <>
                         <li className="nav-item">
                           <a
+                            href="/annotator-my-tasks"
+                            className="nav-link"
+                            data-key="t-chartjs"
+                          >
+                            My Task
+                          </a>
+                        </li>
+                        <li className="nav-item">
+                          <a
                             href="/workplace-labeling-task"
                             className="nav-link"
                             data-key="t-chartjs"
