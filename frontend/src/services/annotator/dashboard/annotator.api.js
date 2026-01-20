@@ -16,7 +16,7 @@ export const getAssignedProjects = async () => {
 };
 
 export const getMyTasks = async (projectId) => {
-  const res = await axios.get(`/api/Task/my-tasks/${projectId}`);
+  const res = await axios.get(`/api/Task/my-tasks?projectId=${projectId || 0}`);
   return res.data;
 };
 
@@ -24,13 +24,19 @@ export const getAllReviewerFeedback = async () => {
   const projectRes = await axios.get("/api/Project/annotator/assigned");
   const projects = projectRes.data || [];
 
+  if (projects.length === 0) return [];
+
   const reviewRequests = projects.map((p) =>
-    axios.get(`/api/Review/project/${p.id}`),
+    axios.get(`/api/Task/my-tasks?projectId=${p.id}`).then((res) => {
+      return res.data.map((task) => ({
+        ...task,
+        projectName: p.name,
+      }));
+    }),
   );
 
   const responses = await Promise.all(reviewRequests);
+  const allTasks = responses.flat();
 
-  return responses
-    .flatMap((r) => r.data)
-    .filter((task) => task.status === "RETURNED");
+  return allTasks.filter((task) => task.status === "Returned");
 };

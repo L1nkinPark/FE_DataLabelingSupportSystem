@@ -17,6 +17,7 @@ import SettingsSystemLogs from "./page/SettingsSystemLogs";
 import RoleProtectedRoute from "./routes/RoleProtectedRoute";
 import AccessDenied from "./routes/AccessDenied";
 import AnnotatorDashboard from "./page/annotator/dashboard/AnnotatorDashboard";
+import AnnotatorTaskList from "./page/annotator/tasks/AnnotatorTaskList";
 
 function App() {
   /*
@@ -70,6 +71,22 @@ function App() {
           element={
             <RoleProtectedRoute allowRoles={["Admin"]}>
               <SettingUserManagement />
+            </RoleProtectedRoute>
+          }
+        />
+        <Route
+          path="/annotator-my-tasks"
+          element={
+            <RoleProtectedRoute allowRoles={["Annotator"]}>
+              <AnnotatorTaskList />
+            </RoleProtectedRoute>
+          }
+        />
+        <Route
+          path="/workplace-labeling-task/:assignmentId"
+          element={
+            <RoleProtectedRoute allowRoles={["Annotator"]}>
+              <WorkplaceLabelingTaskPage />
             </RoleProtectedRoute>
           }
         />

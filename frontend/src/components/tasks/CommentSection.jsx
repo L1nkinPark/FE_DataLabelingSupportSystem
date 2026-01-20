@@ -1,100 +1,123 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import commentService from "../../services/annotator/labeling/commentService";
+import { toast } from "react-toastify";
 
-const CommentSection = () => {
-  const [activeTab, setActiveTab] = useState("comments");
+const CommentSection = ({ taskId }) => {
+  const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  // Lấy danh sách bình luận khi taskId thay đổi
+  useEffect(() => {
+    if (taskId) {
+      loadComments();
+    }
+  }, [taskId]);
+
+  const loadComments = async () => {
+    try {
+      const res = await commentService.getComments(taskId);
+      // Giả sử API trả về mảng dữ liệu trong res.data hoặc res.data.data
+      setComments(res.data?.data || res.data || []);
+    } catch {
+      console.error("Không thể tải bình luận");
+    }
+  };
+
+  const handlePostComment = async () => {
+    if (!newComment.trim()) return;
+    setLoading(true);
+    try {
+      await commentService.postComment(taskId, newComment);
+      setNewComment("");
+      loadComments(); // Tải lại danh sách sau khi gửi
+      toast.success("Đã gửi phản hồi");
+    } catch {
+      toast.error("Gửi phản hồi thất bại");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <div className="card mt-4">
-      <div className="card-header align-items-center d-flex">
-        <h4 className="card-title mb-0 flex-grow-1">Thảo luận & Phản hồi</h4>
+    <div className="card mt-4 shadow-sm border-0">
+      <div className="card-header align-items-center d-flex bg-white py-3">
+        <h4 className="card-title mb-0 flex-grow-1 fw-bold">
+          <i className="ri-discuss-line me-2 text-success"></i>
+          Thảo luận & Phản hồi
+        </h4>
       </div>
 
       <div className="card-body">
-        <ul
-          className="nav nav-tabs nav-tabs-custom nav-success mb-3"
-          role="tablist"
+        <div
+          className="px-3 mb-3"
+          style={{
+            height: "300px",
+            overflowY: "auto",
+            borderBottom: "1px solid #eee",
+          }}
         >
-          <li className="nav-item">
-            <a
-              className={`nav-link ${activeTab === "comments" ? "active" : ""}`}
-              onClick={() => setActiveTab("comments")}
-              href="#!"
-            >
-              Bình luận (02)
-            </a>
-          </li>
-        </ul>
-
-        <div className="tab-content text-muted">
-          {activeTab === "comments" && (
-            <div className="tab-pane active">
-              <div
-                data-simplebar
-                style={{ height: "300px" }}
-                className="px-3 mx-n3 mb-2"
-              >
-                <div className="d-flex mb-4">
-                  <div className="flex-shrink-0">
-                    <img
-                      src="https://themesbrand.com/velzon/html/master/assets/images/users/avatar-8.jpg"
-                      alt=""
-                      className="avatar-xs rounded-circle"
-                    />
-                  </div>
-                  <div className="flex-grow-1 ms-3">
-                    <h5 className="fs-13">
-                      Nancy Martino{" "}
-                      <small className="text-muted">Hôm qua - 09:15 AM</small>
-                    </h5>
-                    <p className="text-muted">
-                      Vui lòng kiểm tra lại nhãn số #04, khung vẽ đang bị lệch
-                      so với đối tượng xe.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="d-flex mb-4">
-                  <div className="flex-shrink-0">
-                    <img
-                      src="https://themesbrand.com/velzon/html/master/assets/images/users/avatar-10.jpg"
-                      alt=""
-                      className="avatar-xs rounded-circle"
-                    />
-                  </div>
-                  <div className="flex-grow-1 ms-3">
-                    <h5 className="fs-13">
-                      Admin <small className="text-muted">05 phút trước</small>
-                    </h5>
-                    <p className="text-muted">Đã nhận được yêu cầu sửa đổi.</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-3">
-                <div className="row g-3">
-                  <div className="col-12">
-                    <label
-                      htmlFor="exampleFormControlTextarea1"
-                      className="form-label text-body"
-                    >
-                      Gửi phản hồi cho Reviewer
-                    </label>
-                    <textarea
-                      className="form-control bg-light border-light"
-                      id="exampleFormControlTextarea1"
-                      rows="3"
-                      placeholder="Nhập nội dung..."
-                    ></textarea>
-                  </div>
-                  <div className="col-12 text-end">
-                    <button type="button" className="btn btn-success">
-                      Gửi bình luận
-                    </button>
-                  </div>
-                </div>
-              </div>
+          {comments.length === 0 ? (
+            <div className="text-center mt-5 text-muted">
+              <i className="ri-chat-history-line fs-24"></i>
+              <p>Chưa có thảo luận nào cho nhiệm vụ này.</p>
             </div>
+          ) : (
+            comments.map((item, index) => (
+              <div className="d-flex mb-4" key={item.id || index}>
+                <div className="flex-shrink-0">
+                  <div className="avatar-xs">
+                    <span className="avatar-title rounded-circle bg-soft-primary text-primary">
+                      {item.userName?.charAt(0) || "U"}
+                    </span>
+                  </div>
+                </div>
+                <div className="flex-grow-1 ms-3">
+                  <h5 className="fs-13 mb-1">
+                    {item.userName || "User"}
+                    <small className="text-muted ms-2">
+                      {new Date(item.createdAt).toLocaleString()}
+                    </small>
+                    {item.errorCategory && item.errorCategory !== "General" && (
+                      <span className="badge bg-danger-subtle text-danger ms-2">
+                        Lỗi: {item.errorCategory}
+                      </span>
+                    )}
+                  </h5>
+                  <p className="text-muted bg-light p-2 rounded mb-0">
+                    {item.comment}
+                  </p>
+                </div>
+              </div>
+            ))
           )}
+        </div>
+
+        <div className="mt-3">
+          <div className="row g-3">
+            <div className="col-12">
+              <label className="form-label fw-medium text-muted">
+                Gửi phản hồi cho Reviewer / Manager
+              </label>
+              <textarea
+                className="form-control bg-light border-light"
+                rows="3"
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+                placeholder="Nhập nội dung thắc mắc hoặc giải trình về các nhãn đã sửa..."
+              ></textarea>
+            </div>
+            <div className="col-12 text-end">
+              <button
+                type="button"
+                className="btn btn-success px-4"
+                onClick={handlePostComment}
+                disabled={loading || !newComment.trim()}
+              >
+                {loading ? "Đang gửi..." : "Gửi bình luận"}
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

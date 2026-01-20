@@ -1,4 +1,4 @@
-// labelingSlice.js
+// store/annotator/labelling/labelingSlice.js
 import { createSlice } from "@reduxjs/toolkit";
 
 const labelingSlice = createSlice({
@@ -6,22 +6,34 @@ const labelingSlice = createSlice({
   initialState: {
     annotations: [],
     selectedLabel: null,
-    history: [],
   },
   reducers: {
     addAnnotation: (state, action) => {
-      state.history.push([...state.annotations]);
       state.annotations.push(action.payload);
     },
-    importAiAnnotations: (state, action) => {
-      state.annotations = [...state.annotations, ...action.payload];
+    removeAnnotation: (state, action) => {
+      state.annotations = state.annotations.filter(
+        (ann) => ann.id !== action.payload,
+      );
+    },
+    setAnnotations: (state, action) => {
+      state.annotations = action.payload; // Dùng khi load dữ liệu cũ/Draft
     },
     setSelectedLabel: (state, action) => {
       state.selectedLabel = action.payload;
     },
+    resetWorkspace: (state) => {
+      state.annotations = [];
+      state.selectedLabel = null;
+    },
   },
 });
 
-export const { addAnnotation, setSelectedLabel, importAiAnnotations } =
-  labelingSlice.actions;
+export const {
+  addAnnotation,
+  removeAnnotation,
+  setAnnotations,
+  setSelectedLabel,
+  resetWorkspace,
+} = labelingSlice.actions;
 export default labelingSlice.reducer;

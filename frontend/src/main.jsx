@@ -23,13 +23,13 @@ const queryClient = new QueryClient({
 });
 
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
-    <BrowserRouter>
-      <Provider store={store}>
-        <QueryClientProvider client={queryClient}>
-          <App />
-        </QueryClientProvider>
-      </Provider>
-    </BrowserRouter>
-  </StrictMode>,
+  // <StrictMode>
+  <BrowserRouter>
+    <Provider store={store}>
+      <QueryClientProvider client={queryClient}>
+        <App />
+      </QueryClientProvider>
+    </Provider>
+  </BrowserRouter>,
+  // </StrictMode>,
 );
