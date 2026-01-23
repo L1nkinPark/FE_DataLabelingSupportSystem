@@ -1,7 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import { Carousel } from "react-bootstrap";
-
+import registerApi from "../../services/auth/register/register.api";
 const RegisterPage = () => {
+  const [email, setEmail] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const handleRegister = async (e) => {
+    e.preventDefault(); // chặn reload page
+    setError("");
+
+    try {
+      await registerApi(fullName, email, password);
+      window.location.href = "/login";
+    } catch (err) {
+      setError(err?.response?.data?.message || "Register failed");
+    }
+  };
+  
   const quotes = [
     {
       text: "Great things never come from comfort zones.",
@@ -127,7 +144,7 @@ const RegisterPage = () => {
                         <form
                           className="needs-validation"
                           noValidate
-                          action="https://themesbrand.com/velzon/html/default/index.html"
+                          onSubmit={handleRegister}
                         >
                           <div className="mb-3">
                             <label htmlFor="useremail" className="form-label">
@@ -138,6 +155,8 @@ const RegisterPage = () => {
                               className="form-control"
                               id="useremail"
                               placeholder="Enter email address"
+                              value={email}
+                              onChange={(e) => setEmail(e.target.value)}
                               required
                             />
                             <div className="invalid-feedback">
@@ -153,6 +172,8 @@ const RegisterPage = () => {
                               className="form-control"
                               id="username"
                               placeholder="Enter username"
+                              value={fullName}
+                              onChange={(e) => setFullName(e.target.value)}
                               required
                             />
                             <div className="invalid-feedback">
@@ -173,6 +194,8 @@ const RegisterPage = () => {
                                 onpaste="return false"
                                 placeholder="Enter password"
                                 id="password-input"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
                                 aria-describedby="passwordInput"
                                 pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
                                 required
@@ -223,6 +246,11 @@ const RegisterPage = () => {
                               className="btn btn-success w-100"
                               type="submit"
                             >
+                              {error && (
+                                <div className="alert alert-danger text-center">
+                                  {error}
+                                </div>
+                              )}
                               Sign Up
                             </button>
                           </div>

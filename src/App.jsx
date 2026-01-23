@@ -4,7 +4,7 @@ import MainLayouts from "./components/layouts/MainLayouts";
 import HomePage from "./page/HomePage";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import LoginPage from "./page/auth/LoginPage";
-import RegisterPage from "./page/RegisterPage";
+import RegisterPage from "./page/auth/RegisterPage";
 import WorkplaceLabelingTaskPage from "./page/annotator/labeling/WorkplaceLabelingTaskPage";
 import ProjectsAllProjectPage from "./page/manager/project/ProjectsAllProjectsPage";
 import WorkplaceReviewTaskPage from "./page/WorkplaceReviewTaskPage";
