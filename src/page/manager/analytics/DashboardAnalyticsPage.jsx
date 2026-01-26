@@ -47,7 +47,6 @@ const DashboardAnalytics = () => {
       try {
         setLoading(true);
 
-        // ================= PROJECTS =================
         const resProjects = await analyticsService.getMyProjects();
         const projects = resProjects.data || [];
 
@@ -59,7 +58,6 @@ const DashboardAnalytics = () => {
         let submitted = 0;
         let rejected = 0;
 
-        // ================= PROJECT STATS =================
         for (const project of projects) {
           console.log("➡️ Fetch stats for project:", project.id, project.name);
 
@@ -94,7 +92,6 @@ const DashboardAnalytics = () => {
         console.log("📈 FINAL COUNT:", finalStats);
         setStats(finalStats);
 
-        // ================= BAR CHART =================
         setProjectChartData(
           projects.map((p) => ({
             name: p.name,
@@ -105,7 +102,6 @@ const DashboardAnalytics = () => {
           })),
         );
 
-        // ================= USERS =================
         const resUsers = await analyticsService.getUsers();
         const users = resUsers.data || [];
 
@@ -146,7 +142,6 @@ const DashboardAnalytics = () => {
   return (
     <div className="page-content">
       <Container fluid>
-        {/* ================= STAT CARDS ================= */}
         <Row>
           <Col md={3}>
             <StatCard
@@ -185,7 +180,6 @@ const DashboardAnalytics = () => {
           </Col>
         </Row>
 
-        {/* ================= PROJECT BAR CHART ================= */}
         <Row className="mt-4">
           <Col xl={8}>
             <Card className="shadow-sm border-0 h-100">
@@ -214,7 +208,6 @@ const DashboardAnalytics = () => {
             </Card>
           </Col>
 
-          {/* ================= TASK STATUS PIE ================= */}
           <Col xl={4}>
             <Card className="shadow-sm border-0 h-100">
               <CardHeader className="bg-white border-bottom">
@@ -249,7 +242,6 @@ const DashboardAnalytics = () => {
           </Col>
         </Row>
 
-        {/* ================= TOP ANNOTATORS ================= */}
         <Row className="mt-4">
           <Col xl={12}>
             <Card className="shadow-sm border-0">

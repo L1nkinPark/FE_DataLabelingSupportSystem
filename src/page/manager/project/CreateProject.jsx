@@ -91,7 +91,6 @@ const CreateProject = () => {
     setLoading(true);
 
     try {
-      // 1️⃣ Create project
       const resProj = await projectService.createProject({
         name: projectInfo.name,
         description: projectInfo.description,
@@ -113,7 +112,6 @@ const CreateProject = () => {
       const projectId = resProj.data?.id || resProj.data?.projectId;
       if (!projectId) throw new Error("Không lấy được projectId");
 
-      // 2️⃣ Upload images to Cloudinary
       toast.info("Đang upload ảnh lên Cloudinary...");
       const uploadedUrls = [];
 
@@ -122,10 +120,8 @@ const CreateProject = () => {
         uploadedUrls.push(url);
       }
 
-      // 3️⃣ Import URLs to backend
       await projectService.importData(projectId, uploadedUrls);
 
-      // 4️⃣ Assign tasks
       const total = uploadedUrls.length;
       let remaining = total;
 
