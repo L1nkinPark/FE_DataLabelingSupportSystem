@@ -78,7 +78,11 @@ const LabelingWorkspace = ({ imageUrl, assignmentId }) => {
   };
 
   const handleMouseUp = () => {
-    if (newRect && Math.abs(newRect.width) > 5) {
+    if (
+      newRect &&
+      Math.abs(newRect.width) > 5 &&
+      Math.abs(newRect.height) > 5
+    ) {
       dispatch(
         addAnnotation({
           id: Date.now().toString(),
@@ -96,6 +100,16 @@ const LabelingWorkspace = ({ imageUrl, assignmentId }) => {
     setNewRect(null);
   };
 
+  const handleMouseEnter = () => {
+    if (!containerRef.current) return;
+    containerRef.current.style.cursor = selectedLabel ? "crosshair" : "default";
+  };
+
+  const handleMouseLeave = () => {
+    if (!containerRef.current) return;
+    containerRef.current.style.cursor = "default";
+  };
+
   return (
     <div ref={containerRef} style={{ height: 600 }} className="bg-dark rounded">
       <Stage
@@ -105,6 +119,8 @@ const LabelingWorkspace = ({ imageUrl, assignmentId }) => {
         scaleY={stageScale}
         x={stagePos.x}
         y={stagePos.y}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}

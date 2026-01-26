@@ -17,5 +17,5 @@ export const deleteUser = (id) => {
 };
 
 export const getUserProfile = () => {
-  return axios.get('/api/User/profile');
-}
+  return axios.get("/api/User/profile");
+};

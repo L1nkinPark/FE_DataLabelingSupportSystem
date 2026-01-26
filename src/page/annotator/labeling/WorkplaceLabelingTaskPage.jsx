@@ -51,23 +51,37 @@ const WorkplaceLabelingTaskPage = () => {
   useEffect(() => {
     if (!currentImage) return;
 
-    if (currentImage.annotationData && annotations.length === 0) {
-      dispatch(
-        setAnnotations({
-          assignmentId: currentImage.id,
-          annotations: JSON.parse(currentImage.annotationData),
-        }),
-      );
-    }
-  }, [currentImage, annotations.length, dispatch]);
+    const parsedAnnotations = currentImage.annotationData
+      ? JSON.parse(currentImage.annotationData)
+      : [];
+
+    dispatch(
+      setAnnotations({
+        assignmentId: currentImage.id,
+        annotations: parsedAnnotations,
+      }),
+    );
+  }, [currentImage, dispatch]);
 
   const saveDraft = async () => {
     if (!currentImage) return;
 
-    await taskService.saveDraft({
-      assignmentId: currentImage.id,
-      dataJSON: JSON.stringify(annotations),
-    });
+    try {
+      const dataJSON = JSON.stringify(annotations ?? []);
+
+      await taskService.saveDraft({
+        assignmentId: currentImage.id,
+        dataJSON,
+      });
+
+      setImages((prev) =>
+        prev.map((img, idx) =>
+          idx === currentImgIndex ? { ...img, annotationData: dataJSON } : img,
+        ),
+      );
+    } catch (err) {
+      toast.error("Lưu nhãn thất bại");
+    }
   };
 
   const next = async () => {
@@ -76,13 +90,24 @@ const WorkplaceLabelingTaskPage = () => {
   };
 
   const submit = async () => {
-    await saveDraft();
-    toast.success("Đã submit ảnh");
+    if (!currentImage) return;
 
-    if (currentImgIndex === images.length - 1) {
-      navigate("/annotator-my-tasks");
-    } else {
-      next();
+    try {
+      await saveDraft();
+
+      await taskService.submitTask({
+        assignmentId: currentImage.id,
+      });
+
+      toast.success("Đã hoàn thành ảnh");
+
+      if (currentImgIndex === images.length - 1) {
+        navigate("/annotator-my-tasks");
+      } else {
+        setCurrentImgIndex((i) => i + 1);
+      }
+    } catch (err) {
+      toast.error("Submit ảnh thất bại");
     }
   };
 

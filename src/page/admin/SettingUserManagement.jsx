@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { getUsers, deleteUser, getUserProfile, updateUser } from "../../services/admin/managementUsers/user.api";
+import {
+  getUsers,
+  deleteUser,
+  getUserProfile,
+  updateUser,
+} from "../../services/admin/managementUsers/user.api";
 import UserTable from "../../components/admin/managementUser/UserTable";
 import { Card, CardBody, CardHeader } from "reactstrap";
 import UserFilter from "../../components/admin/managementUser/UserFilter";
 import UserModal from "../../components/admin/managementUser/UserModal";
 
 const SettingUserManagement = () => {
-
   const [users, setUsers] = useState([]);
   const [selectUser, setSelectUser] = useState(null);
   const [filteredUsers, setFilteredUsers] = useState([]);
@@ -22,48 +26,47 @@ const SettingUserManagement = () => {
     try {
       const res = await getUserProfile();
       setCurrentRole(res.data.role);
-
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   const fetchUsers = async () => {
     try {
       const res = await getUsers();
       setUsers(res.data);
       setFilteredUsers(res.data);
-
     } catch (error) {
       console.error(error);
     }
   };
 
   const handleEdit = (user) => {
-    setSelectUser(user)
+    setSelectUser(user);
     setIsModalOpen(true);
-  }
+  };
 
   const handleDelete = async (id) => {
-    if (window.confirm('Are you sure to delete this user?')) {
+    if (window.confirm("Are you sure to delete this user?")) {
       try {
         await deleteUser(id);
-        console.log('Deleted Successfully');
+        console.log("Deleted Successfully");
         await fetchUsers();
       } catch (error) {
-        console.error('Failed to delete user:', error);
+        console.error("Failed to delete user:", error);
       }
     }
-  }
+  };
 
   const handleSearch = (searchTerm) => {
     if (!searchTerm) {
       setFilteredUsers(users);
       return;
     }
-    const filtered = users.filter(user =>
-      user.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.email.toLowerCase().includes(searchTerm.toLowerCase())
+    const filtered = users.filter(
+      (user) =>
+        user.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user.email.toLowerCase().includes(searchTerm.toLowerCase()),
     );
 
     setFilteredUsers(filtered);
@@ -72,7 +75,7 @@ const SettingUserManagement = () => {
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
     if (isModalOpen) setSelectUser(null);
-  }
+  };
 
   const handleSave = async (userData) => {
     try {
@@ -84,7 +87,7 @@ const SettingUserManagement = () => {
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   return (
     <>
@@ -109,7 +112,6 @@ const SettingUserManagement = () => {
         user={selectUser}
         handleSave={handleSave}
       />
-
     </>
   );
 };

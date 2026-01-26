@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import taskService from "../../../services/annotator/labeling/taskService";
 import { toast } from "react-toastify";
 
@@ -7,6 +7,7 @@ const AnnotatorTaskList = () => {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -39,7 +40,7 @@ const AnnotatorTaskList = () => {
     };
 
     fetchTasks();
-  }, []);
+  }, [location.key]);
 
   const statusColor = (status) => {
     switch (status) {
