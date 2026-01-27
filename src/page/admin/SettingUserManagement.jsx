@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
   getUsers,
-  deleteUser,
   getUserProfile,
   updateUser,
 } from "../../services/admin/managementUsers/user.api";
@@ -44,18 +43,6 @@ const SettingUserManagement = () => {
   const handleEdit = (user) => {
     setSelectUser(user);
     setIsModalOpen(true);
-  };
-
-  const handleDelete = async (id) => {
-    if (window.confirm("Are you sure to delete this user?")) {
-      try {
-        await deleteUser(id);
-        console.log("Deleted Successfully");
-        await fetchUsers();
-      } catch (error) {
-        console.error("Failed to delete user:", error);
-      }
-    }
   };
 
   const handleSearch = (searchTerm) => {
