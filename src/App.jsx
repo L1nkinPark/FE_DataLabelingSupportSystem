@@ -22,113 +22,64 @@ import CreateProject from "./page/manager/project/CreateProject";
 import ProjectsDatasetsPage from "./page/manager/datasets/ProjectsDatasetsPage";
 import DashboardAnalytics from "./page/manager/analytics/DashboardAnalyticsPage";
 import LoginPage from "./page/auth/login/LoginPage";
+import { ROLES } from "./constants/roles";
 
 function App() {
-  /*
-    Annotator |  Workplace > Labeling Task  |  Làm việc ngay với các task được giao.
-    Manager   |  Projects > All Projects    |  Quản lý tiến độ và phân công.
-    Reviewer  |  Workplace > Review Task    |  Kiểm duyệt chất lượng dữ liệu đầu vào.
-    Admin     |  Dashboard > Analytics      |  Theo dõi sức khỏe hệ thống và người dùng.
-  */
   return (
     <>
       <Routes>
-        <Route path="/" element={<MainLayouts />}>
-          <Route index element={<HomePage />} />
-          <Route path="dashboard" element={<HomePage />} />
-          {/* <Route
-          path="/workplace-labeling-task"
-          element={
-            <RoleProtectedRoute allowRoles={["Annotator"]}>
-              <WorkplaceLabelingTaskPage />
-            </RoleProtectedRoute>
-          }
-        /> */}
-          <Route
-            path="/workplace-review-task"
-            element={
-              <RoleProtectedRoute allowRoles={["Reviewer"]}>
-                <WorkplaceReviewTaskPage />
-              </RoleProtectedRoute>
-            }
-          />
-          <Route path="/export" element={<ExportPage />} />
-          <Route
-            path="/dashboard-analytics"
-            element={
-              <RoleProtectedRoute
-                allowRoles={["Admin", "Manager", "Annotator"]}
-              >
-                <DashboardAnalytics />
-              </RoleProtectedRoute>
-            }
-          />
-          <Route
-            path="/dashboard-project-status"
-            element={<DashboardProjectStatus />}
-          />
-          <Route
-            path="/projects-all-projects"
-            element={<ProjectsAllProjectPage />}
-          />
-          <Route path="/projects-datasets" element={<ProjectsDatasetsPage />} />
-          <Route
-            path="/settings-user-management"
-            element={
-              <RoleProtectedRoute allowRoles={["Admin"]}>
-                <SettingUserManagement />
-              </RoleProtectedRoute>
-            }
-          />
-          <Route
-            path="/annotator-my-tasks"
-            element={
-              <RoleProtectedRoute allowRoles={["Annotator"]}>
-                <AnnotatorTaskList />
-              </RoleProtectedRoute>
-            }
-          />
-          <Route
-            path="/workplace-labeling-task/:assignmentId"
-            element={
-              <RoleProtectedRoute allowRoles={["Annotator"]}>
-                <WorkplaceLabelingTaskPage />
-              </RoleProtectedRoute>
-            }
-          />
-          <Route
-            path="/projects-datasets/:id"
-            element={
-              <RoleProtectedRoute allowRoles={["Manager", "Admin"]}>
-                <ProjectImportData />
-              </RoleProtectedRoute>
-            }
-          />
-          <Route
-            path="/projects-create"
-            element={
-              <RoleProtectedRoute allowRoles={["Manager", "Admin"]}>
-                <CreateProject />
-              </RoleProtectedRoute>
-            }
-          />
-          <Route
-            path="/projects-assign/:id"
-            element={
-              <RoleProtectedRoute allowRoles={["Manager", "Admin"]}>
-                <ProjectAssignTask />
-              </RoleProtectedRoute>
-            }
-          />
-          <Route
-            path="/settings-system-logs"
-            element={<SettingsSystemLogs />}
-          />
-          <Route path="/my-dashboard" element={<AnnotatorDashboard />} />
-        </Route>
+        {/* PUBLIC ROUTES */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/access-denied" element={<AccessDenied />} />
+        {/* PROTECTED ROUTES */}
+        <Route path="/" element={<MainLayouts />}>
+          <Route index element={<HomePage />} />
+          <Route path="dashboard" element={<HomePage />} />
+
+          {/* NHÓM ADMIN: Quản trị hệ thống */}
+          <Route element={<RoleProtectedRoute allowRoles={["Admin"]} />}>
+            <Route
+              path="settings-user-management"
+              element={<SettingUserManagement />}
+            />
+            <Route
+              path="settings-system-logs"
+              element={<SettingsSystemLogs />}
+            />
+          </Route>
+
+          {/* NHÓM MANAGER & ADMIN: Quản lý dự án */}
+          <Route
+            element={<RoleProtectedRoute allowRoles={["Admin", "Manager"]} />}
+          >
+            <Route
+              path="dashboard-analytics"
+              element={<DashboardAnalytics />}
+            />
+            <Route
+              path="projects-all-projects"
+              element={<ProjectsAllProjectPage />}
+            />
+            <Route
+              path="projects-datasets"
+              element={<ProjectsDatasetsPage />}
+            />
+            <Route path="projects-create" element={<CreateProject />} />
+            {/* ... các route manager khác */}
+          </Route>
+
+          {/* NHÓM ANNOTATOR: Làm việc */}
+          <Route element={<RoleProtectedRoute allowRoles={["Annotator"]} />}>
+            <Route path="my-dashboard" element={<AnnotatorDashboard />} />
+            <Route path="annotator-my-tasks" element={<AnnotatorTaskList />} />
+            <Route
+              path="workplace-labeling-task/:assignmentId"
+              element={<WorkplaceLabelingTaskPage />}
+            />
+          </Route>
+        </Route>
+
         <Route path="*" element={<Navigate to="/access-denied" replace />} />
       </Routes>
       <SpeedInsights />
