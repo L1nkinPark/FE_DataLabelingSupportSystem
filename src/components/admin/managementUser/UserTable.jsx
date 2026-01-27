@@ -41,12 +41,6 @@ const UserTable = (props) => {
                         <i className="ri-edit-line"></i>
                       </button>
                       <button
-                        className="btn btn-sm btn-soft-danger"
-                        onClick={() => onDelete(user.id)}
-                      >
-                        <i className="ri-delete-bin-line"></i>
-                      </button>
-                      <button
                         className={`btn btn-sm btn-icon-label ${user.isActive ? "btn-soft-success" : "btn-soft-danger"}`}
                         onClick={() => onActive(user.id, !user.isActive)}
                       >
