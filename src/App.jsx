@@ -4,7 +4,6 @@ import { SpeedInsights } from "@vercel/speed-insights/react";
 import MainLayouts from "./components/layouts/MainLayouts";
 import HomePage from "./page/HomePage";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import LoginPage from "./page/auth/LoginPage";
 import RegisterPage from "./page/auth/RegisterPage";
 import WorkplaceLabelingTaskPage from "./page/annotator/labeling/WorkplaceLabelingTaskPage";
 import ProjectsAllProjectPage from "./page/manager/project/ProjectsAllProjectsPage";
@@ -22,6 +21,7 @@ import ProjectAssignTask from "./page/manager/project/ProjectAssignTask";
 import CreateProject from "./page/manager/project/CreateProject";
 import ProjectsDatasetsPage from "./page/manager/datasets/ProjectsDatasetsPage";
 import DashboardAnalytics from "./page/manager/analytics/DashboardAnalyticsPage";
+import LoginPage from "./page/auth/login/LoginPage";
 
 function App() {
   /*
@@ -56,7 +56,9 @@ function App() {
           <Route
             path="/dashboard-analytics"
             element={
-              <RoleProtectedRoute allowRoles={["Admin", "Manager", "Annotator"]}>
+              <RoleProtectedRoute
+                allowRoles={["Admin", "Manager", "Annotator"]}
+              >
                 <DashboardAnalytics />
               </RoleProtectedRoute>
             }
@@ -118,7 +120,10 @@ function App() {
               </RoleProtectedRoute>
             }
           />
-          <Route path="/settings-system-logs" element={<SettingsSystemLogs />} />
+          <Route
+            path="/settings-system-logs"
+            element={<SettingsSystemLogs />}
+          />
           <Route path="/my-dashboard" element={<AnnotatorDashboard />} />
         </Route>
         <Route path="/login" element={<LoginPage />} />
