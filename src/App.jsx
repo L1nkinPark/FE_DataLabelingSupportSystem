@@ -56,7 +56,9 @@ function App() {
           <Route
             path="/dashboard-analytics"
             element={
-              <RoleProtectedRoute allowRoles={["Admin", "Manager", "Annotator"]}>
+              <RoleProtectedRoute
+                allowRoles={["Admin", "Manager", "Annotator"]}
+              >
                 <DashboardAnalytics />
               </RoleProtectedRoute>
             }
@@ -118,7 +120,10 @@ function App() {
               </RoleProtectedRoute>
             }
           />
-          <Route path="/settings-system-logs" element={<SettingsSystemLogs />} />
+          <Route
+            path="/settings-system-logs"
+            element={<SettingsSystemLogs />}
+          />
           <Route path="/my-dashboard" element={<AnnotatorDashboard />} />
         </Route>
         <Route path="/login" element={<LoginPage />} />
