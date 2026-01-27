@@ -89,6 +89,18 @@ const SettingUserManagement = () => {
     }
   };
 
+  const handleActive = async (userId, userIsActive) => {
+    try {
+      if (userId) {
+        await updateUser(userId, userIsActive);
+        console.log("Updated Successfully");
+      }
+      await fetchUsers();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <>
       <Card>
@@ -101,6 +113,7 @@ const SettingUserManagement = () => {
             users={filteredUsers}
             onEdit={handleEdit}
             onDelete={handleDelete}
+            onActive={handleActive}
             currentRole={currentRole}
           />
         </CardBody>
