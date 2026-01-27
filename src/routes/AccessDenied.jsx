@@ -30,7 +30,7 @@ const AccessDenied = () => (
                 </div>
                 <div className="mt-n4">
                   <h1 className="display-1 fw-medium">404</h1>
-                  <h3 className="text-uppercase">Sorry, Page not Found 😭</h3>
+                  <h3 className="text-uppercase">Sorry, Page not Found</h3>
                   <p className="text-muted mb-4">
                     The page you are looking for not available!
                   </p>
