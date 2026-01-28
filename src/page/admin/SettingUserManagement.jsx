@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import {
   getUsers,
-  deleteUser,
   getUserProfile,
   updateUser,
+  updateStatus,
 } from "../../services/admin/managementUsers/user.api";
 import UserTable from "../../components/admin/managementUser/UserTable";
 import { Card, CardBody, CardHeader } from "reactstrap";
@@ -47,18 +47,6 @@ const SettingUserManagement = () => {
     setIsModalOpen(true);
   };
 
-  const handleDelete = async (id) => {
-    if (window.confirm("Are you sure to delete this user?")) {
-      try {
-        await deleteUser(id);
-        console.log("Deleted Successfully");
-        await fetchUsers();
-      } catch (error) {
-        console.error("Failed to delete user:", error);
-      }
-    }
-  };
-
   const handleSearch = (searchTerm) => {
     if (!searchTerm) {
       setFilteredUsers(users);
@@ -90,6 +78,18 @@ const SettingUserManagement = () => {
     }
   };
 
+  const handleActive = async (userId, isActive) => {
+    try {
+      if (userId) {
+        await updateStatus(userId, isActive);
+        console.log("Updated Successfully");
+      }
+      await fetchUsers();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <>
       <Card>
@@ -101,7 +101,7 @@ const SettingUserManagement = () => {
           <UserTable
             users={filteredUsers}
             onEdit={handleEdit}
-            onDelete={handleDelete}
+            onActive={handleActive}
             currentRole={currentRole}
           />
         </CardBody>

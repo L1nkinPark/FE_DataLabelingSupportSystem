@@ -1,5 +1,5 @@
 const UserTable = (props) => {
-  const { users, onEdit, onDelete, currentRole } = props;
+  const { users, onEdit, onDelete, currentRole, onActive } = props;
 
   return (
     <>
@@ -41,18 +41,18 @@ const UserTable = (props) => {
                         <i className="ri-edit-line"></i>
                       </button>
                       <button
-                        className="btn btn-sm btn-soft-danger"
-                        onClick={() => onDelete(user.id)}
+                        className={`btn btn-sm btn-icon-label ${user.isActive ? "btn-soft-success" : "btn-soft-danger"}`}
+                        onClick={() => onActive(user.id, !user.isActive)}
                       >
-                        <i className="ri-delete-bin-line"></i>
+                        <i
+                          className={
+                            user.isActive
+                              ? "ri-checkbox-circle-line"
+                              : "ri-error-warning-line"
+                          }
+                        ></i>
+                        {user.isActive ? "Active" : "Inactive"}
                       </button>
-                      {/* <button
-                                                className={`btn btn-sm btn-icon-label ${user.isActive ? 'btn-soft-success' : 'btn-soft-danger'}`}
-                                                onClick={() => handleToggleActive(user.id, !user.isActive)}
-                                            >
-                                                <i className={user.isActive ? 'ri-checkbox-circle-line' : 'ri-error-warning-line'}></i>
-                                                {user.isActive ? 'Active' : 'Inactive'}
-                                            </button> */}
                     </>
                   )}
                 </td>

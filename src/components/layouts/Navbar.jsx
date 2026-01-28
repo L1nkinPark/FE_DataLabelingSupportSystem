@@ -145,75 +145,82 @@ const Navbar = () => {
             </>
           )}
 
-          <li className="menu-title">
-            <i className="ri-more-fill" />
-            <span data-key="t-components">Workplace</span>
-          </li>
+          {["Annotator", "Reviewer"].includes(role) && (
+            <>
+              {/* Header Menu */}
+              <li className="menu-title">
+                <i className="ri-more-fill" />
+                <span data-key="t-components">Workplace</span>
+              </li>
 
-          <li className="nav-item">
-            <a
-              className={`nav-link menu-link ${
-                openMenu === "sidebarCharts" ? "" : "collapsed"
-              }`}
-              href="#!"
-              onClick={(e) => {
-                e.preventDefault();
-                handleToggle("sidebarCharts");
-              }}
-              data-bs-toggle="collapse"
-              role="button"
-              aria-expanded={openMenu === "sidebarCharts"}
-              aria-controls="sidebarCharts"
-            >
-              <i className="ri-pie-chart-line" />
-              <span data-key="t-charts">Workplace</span>
-            </a>
-
-            <Collapse in={openMenu === "sidebarCharts"}>
-              <div>
-                <div
-                  className={`collapse menu-dropdown ${
-                    openMenu === "sidebarCharts" ? "show" : ""
+              {/* Nav Item */}
+              <li className="nav-item">
+                <a
+                  className={`nav-link menu-link ${
+                    openMenu === "sidebarCharts" ? "" : "collapsed"
                   }`}
-                  id="sidebarCharts"
+                  href="#!"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleToggle("sidebarCharts");
+                  }}
+                  data-bs-toggle="collapse"
+                  role="button"
+                  aria-expanded={openMenu === "sidebarCharts"}
+                  aria-controls="sidebarCharts"
                 >
-                  <ul className="nav nav-sm flex-column">
-                    {role === "Annotator" && (
-                      <>
-                        <li className="nav-item">
-                          <a
-                            href="/annotator-my-tasks"
-                            className="nav-link"
-                            data-key="t-chartjs"
-                          >
-                            My Task
-                          </a>
-                        </li>
-                        <li className="nav-item">
-                          <a href="/my-dashboard" className="nav-link">
-                            My Dashboard
-                          </a>
-                        </li>
-                      </>
-                    )}
-                    {role === "Reviewer" && (
-                      <>
-                        <li className="nav-item">
-                          <a
-                            href="/workplace-review-task"
-                            className="nav-link"
-                            data-key="t-echarts"
-                          >
-                            Review Task
-                          </a>
-                        </li>
-                      </>
-                    )}
-                  </ul>
-                </div>
-              </div>
-            </Collapse>
-          </li>
+                  <i className="ri-pie-chart-line" />
+                  <span data-key="t-charts">Workplace</span>
+                </a>
+
+                <Collapse in={openMenu === "sidebarCharts"}>
+                  <div>
+                    <div
+                      className={`collapse menu-dropdown ${
+                        openMenu === "sidebarCharts" ? "show" : ""
+                      }`}
+                      id="sidebarCharts"
+                    >
+                      <ul className="nav nav-sm flex-column">
+                        {/* Nội dung cho Annotator */}
+                        {role === "Annotator" && (
+                          <>
+                            <li className="nav-item">
+                              <a
+                                href="/annotator-my-tasks"
+                                className="nav-link"
+                                data-key="t-chartjs"
+                              >
+                                My Task
+                              </a>
+                            </li>
+                            <li className="nav-item">
+                              <a href="/my-dashboard" className="nav-link">
+                                My Dashboard
+                              </a>
+                            </li>
+                          </>
+                        )}
+
+                        {/* Nội dung cho Reviewer */}
+                        {role === "Reviewer" && (
+                          <li className="nav-item">
+                            <a
+                              href="/workplace-review-task"
+                              className="nav-link"
+                              data-key="t-echarts"
+                            >
+                              Review Task
+                            </a>
+                          </li>
+                        )}
+                      </ul>
+                    </div>
+                  </div>
+                </Collapse>
+              </li>
+            </>
+          )}
 
           {["Admin", "Manager"].includes(role) && (
             <li className="menu-title">

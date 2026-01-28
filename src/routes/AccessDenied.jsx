@@ -1,7 +1,7 @@
 import errorImg from "../assets/images/error.svg";
 
 const AccessDenied = () => (
-  <div class="auth-page-wrapper pt-5">
+  <div className="auth-page-wrapper pt-5">
     <div>
       <div className="auth-one-bg-position auth-one-bg" id="auth-particles">
         <div className="bg-overlay" />
@@ -30,7 +30,7 @@ const AccessDenied = () => (
                 </div>
                 <div className="mt-n4">
                   <h1 className="display-1 fw-medium">404</h1>
-                  <h3 className="text-uppercase">Sorry, Page not Found 😭</h3>
+                  <h3 className="text-uppercase">Sorry, Page not Found</h3>
                   <p className="text-muted mb-4">
                     The page you are looking for not available!
                   </p>

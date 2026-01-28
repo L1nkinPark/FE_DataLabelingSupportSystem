@@ -12,10 +12,10 @@ export const updateUser = (id, data) => {
   return axios.put(`/api/User/${id}`, data);
 };
 
-export const deleteUser = (id) => {
-  return axios.delete(`/api/User/${id}`);
-};
-
 export const getUserProfile = () => {
   return axios.get("/api/User/profile");
+};
+
+export const updateStatus = (id, isActive) => {
+  return axios.patch(`/api/User/${id}/status?isActive=${isActive}`);
 };
