@@ -14,21 +14,23 @@ const AuthLeftQuotes = () => {
   ];
 
   return (
-    <div className="mt-auto">
-      <div className="mb-3">
-        <i className="ri-double-quotes-l display-4 text-success" />
+    <div className="w-100">
+      <div className="mb-1">
+        <i className="ri-double-quotes-l display-6 text-success opacity-75" />
       </div>
       <Carousel
         indicators={true}
         controls={false}
-        interval={2000}
+        interval={3000}
         fade={true}
-        id="qoutescarouselIndicators"
-        className="mt-auto"
+        pause={false}
+        className="text-start"
       >
         {quotes.map((quote, index) => (
-          <Carousel.Item key={index} className="text-center text-white pb-5">
-            <p className="fs-15 fst-italic">"{quote.text}"</p>
+          <Carousel.Item key={index} className="text-white pb-4">
+            <p className="fs-16 fst-italic mb-1" style={{ minHeight: "3em" }}>
+              "{quote.text}"
+            </p>
             <span className="text-white-50 small">- {quote.author}</span>
           </Carousel.Item>
         ))}
@@ -36,5 +38,4 @@ const AuthLeftQuotes = () => {
     </div>
   );
 };
-
 export default AuthLeftQuotes;

@@ -5,7 +5,7 @@ const AuthLeftLogo = () => {
   return (
     <div className="mb-4">
       <Link to="/" className="d-block">
-        <img src={logoLight} alt="logo" height={18} />
+        <img src={logoLight} alt="logo" height={22} />
       </Link>
     </div>
   );

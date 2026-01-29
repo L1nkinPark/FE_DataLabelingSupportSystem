@@ -23,9 +23,8 @@ const LandingNavbar = ({ onLogin }) => (
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="ms-auto align-items-center gap-2">
           <Button
-            variant="link"
-            className="text-decoration-none fw-semibold px-4"
-            style={{ color: "#475569" }}
+            variant="primary"
+            className="btn btn-primary fw-bold px-4 py-2"
             onClick={onLogin}
           >
             Đăng nhập
