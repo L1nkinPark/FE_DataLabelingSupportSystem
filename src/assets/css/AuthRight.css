@@ -140,26 +140,64 @@
     }
 }
 
+/* --- CHỈ SỬA CHO MOBILE (< 992px) --- */
 @media (max-width: 991.98px) {
-    .auth-banner-mobile {
-        height: 180px !important;
+
+    /* 1. Ép wrapper ngoài cùng bám đỉnh tuyệt đối */
+    .auth-page-wrapper {
+        display: block !important;
+        padding-top: 0 !important;
+        background-color: #fff !important;
+        /* Tránh lộ nền light phía trên banner */
     }
 
-    .auth-form-container {
-        /* Đè lên banner mobile một chút để thu gọn trang */
-        border-radius: 25px 25px 0 0;
-        margin-top: -30px;
-        box-shadow: 0 -10px 20px rgba(0, 0, 0, 0.1);
+    /* 2. Banner mobile bám sát đỉnh */
+    .auth-banner-mobile {
+        height: 180px !important;
+        min-height: 180px !important;
+        margin-top: 0 !important;
+    }
 
-        /* Chìa khóa: Không dùng justify-center nếu nội dung quá ngắn để tránh hở trên dưới */
-        justify-content: flex-start;
-        padding-top: 2.5rem !important;
+    /* 3. FIX LỖI KHOẢNG TRẮNG PHÍA TRÊN FORM */
+    .auth-form-container {
+        /* Đẩy nội dung lên trên, tắt cơ chế căn giữa dọc */
+        justify-content: flex-start !important;
+
+        /* Chỉnh padding: trên 1.5rem để cách banner, dưới 4rem để có khoảng nghỉ */
+        padding: 1.5rem 1.5rem 4rem 1.5rem !important;
+
+        /* Hiệu ứng đè nhẹ lên banner -30px */
+        margin-top: -30px !important;
+        border-radius: 25px 25px 0 0 !important;
+
+        /* Tắt flex-grow để card không tự dãn dài ra hết màn hình */
+        flex-grow: 0 !important;
+        min-height: auto !important;
+    }
+
+    .auth-form-content {
+        margin-top: 0 !important;
+        padding: 0 !important;
+        width: 100%;
+    }
+
+    /* Thu nhỏ font chữ để tiết kiệm không gian */
+    .auth-main-title {
+        font-size: 2.0rem !important;
+        margin-top: 10px !important;
+    }
+
+    .text-precision {
+        font-size: 1.8rem !important;
     }
 
     .auth-welcome-text {
-        font-size: 1.25rem !important;
+        font-size: 1.2rem !important;
+        margin-bottom: 5px !important;
     }
 }
+
+/* PHẦN LAPTOP (min-width: 992px) GIỮ NGUYÊN NHƯ CŨ */
 
 
 @media (min-width: 992px) {

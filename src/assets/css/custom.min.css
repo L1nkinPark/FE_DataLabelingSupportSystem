@@ -64,7 +64,7 @@
     left: -1px;
     background: #0ab39c;
     color: white;
-    font-size: 5px;
+    font-size: 4px;
     padding: 2px 6px;
     font-weight: bold;
     white-space: nowrap;
@@ -145,7 +145,7 @@
 .auth-page-content {
     max-height: 90vh;
     display: flex;
-    align-items: center;
+    /* align-items: center; */
 }
 
 
