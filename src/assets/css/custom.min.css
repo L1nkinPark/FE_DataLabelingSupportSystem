@@ -31,3 +31,251 @@
 .header-item i {
     font-size: 20px;
 }
+
+.annotation-box {
+    position: absolute;
+    border: 2px solid #0ab39c;
+    background: rgba(10, 179, 156, 0.05);
+    border-radius: 12px;
+    overflow: hidden;
+    z-index: 3;
+
+    box-shadow:
+        0 0 20px rgba(10, 179, 156, 0.3),
+        0 0 0 1000px rgba(15, 23, 42, 0.08);
+}
+
+
+
+
+.annotation-tag {
+    position: absolute;
+    left: -1px;
+    background: #0ab39c;
+    color: white;
+    font-size: 10px;
+    padding: 2px 6px;
+    font-weight: bold;
+    white-space: nowrap;
+    border-radius: 2px 2px 0 0;
+}
+
+.anchor-point {
+    position: absolute;
+    width: 10px;
+    height: 6px;
+    background: white;
+    border: 1px solid #0ab39c;
+    transform: translate(-50%, -50%);
+}
+
+.auth-one-bg {
+    position: relative;
+    background-image: url('https://res.cloudinary.com/deu3ur8w9/image/upload/v1769674171/unnamed_tsuqg6.png');
+    background-size: cover;
+    background-position: center;
+    filter:
+        brightness(1.08) saturate(1.08) contrast(1.06);
+    overflow: hidden !important;
+
+}
+
+
+.auth-one-bg::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg,
+            rgba(15, 23, 42, 0.38) 0%,
+            rgba(15, 23, 42, 0.22) 40%,
+            rgba(15, 23, 42, 0.10) 70%,
+            rgba(15, 23, 42, 0.03) 100%);
+    z-index: 1;
+}
+
+
+.bg-overlay {
+    background: linear-gradient(135deg,
+            rgba(15, 23, 42, 0.8),
+            rgba(64, 81, 137, 0.7));
+}
+
+
+
+.quotes-container {
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.quote-icon {
+    font-size: 40px;
+    color: #0ab39c;
+    opacity: 0.8;
+    margin-bottom: 10px;
+}
+
+.quotes-carousel .carousel-indicators {
+    justify-content: flex-start;
+    margin-left: 0;
+    margin-bottom: 0;
+}
+
+
+
+.quotes-wrapper {
+    /* min-height: 140px; */
+    display: flex;
+    flex-direction: column;
+    margin-top: 250px;
+}
+
+.auth-page-content {
+    max-height: 90vh;
+    display: flex;
+    align-items: center;
+}
+
+
+
+
+.auth-right {
+    background-color: #ffffff !important;
+    opacity: 1 !important;
+}
+
+.auth-right h1,
+.auth-right h2 {
+    color: #0f172a;
+    font-weight: 700;
+}
+
+.auth-right p {
+    color: #334155;
+
+}
+
+.auth-right label {
+    color: #1e293b;
+    /* slate-800 */
+    font-weight: 600;
+}
+
+
+
+
+.auth-input {
+    background-color: #ffffff;
+    border: 1px solid #d1d5db;
+    color: #0f172a;
+}
+
+.auth-input::placeholder {
+    color: #94a3b8;
+    /* slate-400 */
+}
+
+.auth-input:focus-within {
+    background-color: #ffffff;
+    border-color: #0ab39c;
+    box-shadow: 0 0 0 0.2rem rgba(10, 179, 156, 0.12);
+}
+
+.auth-one-bg .bg-overlay {
+    display: none !important;
+}
+
+
+
+.auth-right label {
+    position: static;
+    margin-bottom: 6px;
+}
+
+.auth-one-bg::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg,
+            rgba(15, 23, 42, 0.55) 0%,
+            rgba(15, 23, 42, 0.25) 45%,
+            rgba(15, 23, 42, 0.05) 100%);
+    z-index: 1;
+}
+
+.auth-left-inner {
+    position: relative;
+    z-index: 2;
+}
+
+.auth-left h1 {
+    color: #ffffff !important;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    text-shadow: 0 8px 30px rgba(0, 0, 0, 0.55) !important;
+}
+
+.auth-left h1 span {
+    color: #00f4d3 !important;
+    text-shadow:
+        0 0 6px rgba(10, 179, 156, 0.45) !important;
+}
+
+.auth-left p {
+    color: rgba(255, 255, 255, 0.9) !important;
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.45) !important;
+}
+
+.auth-card {
+    border-radius: 28px !important;
+    overflow: hidden !important;
+    background: #fff;
+}
+
+.auth-card,
+.card-border-effect-none {
+    border-radius: 28px !important;
+    overflow: hidden;
+    background: #fff;
+}
+
+.auth-left,
+.auth-right {
+    height: 100%;
+}
+
+/* Background trái */
+.auth-one-bg {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Overlay phải bo theo cha */
+.auth-one-bg::before {
+    border-radius: inherit;
+}
+
+.auth-card>.row,
+.auth-card .row {
+    margin: 0 !important;
+}
+
+.auth-wrapper {
+    display: flex;
+    width: 100%;
+    max-width: 1100px;
+    height: 620px;
+
+    border-radius: 28px;
+    overflow: hidden;
+    /* 🔥 BẮT BUỘC */
+    background: #fff;
+
+    box-shadow: 0 25px 60px rgba(0, 0, 0, .15);
+}
+
+.auth-left-content {
+    margin-top: 23px;
+    margin-left: 8px;
+}
