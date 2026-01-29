@@ -30,10 +30,10 @@ const AuthRight = () => {
           <div
             className="annotation-box-min"
             style={{
-              top: "60%",
-              left: "15%",
-              width: "62%",
-              height: "18%",
+              top: "31%",
+              left: "13%",
+              width: "74%",
+              height: "31%",
             }}
           >
             <span className="annotation-tag">

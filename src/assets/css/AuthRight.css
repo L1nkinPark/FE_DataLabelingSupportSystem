@@ -1,7 +1,13 @@
-/* Container chính cho Banner Mobile - Đã bóp ngắn lại */
+/* --- CẤU HÌNH CHUNG --- */
+.auth-right {
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- BANNER MOBILE (Chỉ xuất hiện < 992px) --- */
 .auth-banner-mobile {
-    height: 200px !important;
-    /* Chiều cao vừa phải, không quá dài */
+    height: 200px;
     position: relative;
     width: 100%;
     overflow: hidden;
@@ -26,7 +32,6 @@
     z-index: 1;
 }
 
-/* LOGO - Thu nhỏ nhẹ để dành chỗ cho tiêu đề */
 .auth-logo-text {
     font-weight: 800;
     text-transform: uppercase;
@@ -35,21 +40,17 @@
     opacity: 0.9;
 }
 
-/* TIÊU ĐỀ - Căn giữa tuyệt đối trong banner */
 .auth-title-container {
     flex-grow: 1;
     display: flex;
     align-items: center;
-    /* Căn giữa dọc */
     justify-content: center;
-    /* Căn giữa ngang (nếu muốn chữ nằm giữa) */
     text-align: center;
-    /* Căn giữa dòng chữ */
 }
 
 .auth-main-title {
     font-weight: 800;
-    font-size: 2.8rem !important;
+    font-size: 2.8rem;
     line-height: 0.9;
     color: white;
     margin: 0;
@@ -58,125 +59,72 @@
 
 .text-precision {
     color: #01edc6;
-    font-size: 3.2rem !important;
+    font-size: 3.2rem;
     font-weight: 900;
 }
 
-/* Form Section - Đẩy sát lên trên */
+/* --- FORM CONTAINER MẶC ĐỊNH (MOBILE-FIRST) --- */
 .auth-form-container {
     padding: 1.5rem;
     background: white;
-    border-radius: 25px 25px 0 0;
-    margin-top: -30px;
-    /* Đè lên banner nhiều hơn để thu ngắn tổng thể trang */
     position: relative;
     z-index: 3;
-    box-shadow: 0 -10px 20px rgba(0, 0, 0, 0.1);
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* Căn giữa form theo chiều dọc */
 }
 
-/* Ẩn Annotation Box trên mobile để banner không bị rối khi bóp ngắn */
+/* --- RESPONSIVE: MÀN HÌNH NHỎ (< 992px) --- */
 @media (max-width: 991.98px) {
-    .auth-annotation-box {
-        display: none;
-    }
-}
-
-@media (max-width: 991.98px) {
-
-    /* 1. Bóp ngắn chiều cao banner mobile */
     .auth-banner-mobile {
         height: 180px !important;
-        min-height: 180px !important;
     }
 
-    /* 2. Giảm font chữ tiêu đề để tiết kiệm diện tích */
     .auth-main-title {
         font-size: 2.3rem !important;
-        line-height: 1.0 !important;
-        margin-top: 5px !important;
     }
 
-    .text-precision {
-        font-size: 2.1rem !important;
-    }
-
-    /* 3. Bóp nhỏ Annotation Box bằng Transform (Vẫn giữ được box nhưng cực gọn) */
-    .auth-banner-mobile .annotation-box {
-        transform: scale(0.7);
-        transform-origin: top left;
-        top: 20% !important;
-        left: 5% !important;
-        width: 80% !important;
-    }
-
-    /* 4. Bóp khoảng cách Form Đăng Nhập */
     .auth-form-container {
-        padding: 1.2rem 1.5rem !important;
-        margin-top: -30px !important;
-        /* Đè lên banner để thu ngắn trang */
+        border-radius: 25px 25px 0 0;
+        margin-top: -30px;
+        /* Đè lên banner mobile */
+        padding: 2rem 1.5rem !important;
+        box-shadow: 0 -10px 20px rgba(0, 0, 0, 0.1);
     }
 
     .auth-welcome-text {
         font-size: 1.25rem !important;
-        margin-bottom: 0 !important;
     }
 }
 
-.auth-page-wrapper {
-    /* Đảm bảo nền luôn phủ kín màn hình */
-    display: flex;
-    align-items: center;
-    padding: 2rem 0;
-    /* Tạo khoảng trống trên dưới để không dính mép */
-}
-
-/* Chỉ áp dụng 100vh khi màn hình lớn (Desktop) */
+/* --- RESPONSIVE: MÀN HÌNH LỚN (>= 992px - LAPTOP) --- */
 @media (min-width: 992px) {
-    .auth-page-wrapper {
-        height: 100vh;
-        overflow: hidden;
-        /* Khóa cuộn trên máy tính nếu muốn */
-        padding: 0;
+    .auth-right {
+        height: 100% !important;
+        /* Đảm bảo cao bằng AuthLeft */
     }
-}
 
-@media (min-width: 992px) {
     .auth-form-container {
-        /* Đẩy nội dung vào giữa bằng padding thay vì margin để giữ layout Bootstrap */
-        padding-left: 10% !important;
-        padding-right: 10% !important;
+        /* Đưa form vào giữa vùng trắng tuyệt đối */
+        padding: 0 12% !important;
+        margin-top: 0 !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
     }
 
-    .auth-form-content {
-        /* Đây là chìa khóa: Giới hạn độ rộng của form */
+    /* Giới hạn độ rộng form để không bị dãn thô như ảnh lỗi của bạn */
+    .auth-form-container>div {
         width: 100%;
-        max-width: 420px;
-        /* Độ rộng lý tưởng cho form đăng nhập */
+        max-width: 400px;
+        /* Vị trí và kích thước giống Ảnh 1 */
         margin: 0 auto;
-        /* Căn giữa form trong vùng trắng */
     }
 
     .auth-welcome-text {
         font-size: 1.75rem !important;
         font-weight: 700;
-    }
-}
-
-@media (min-width: 992px) {
-    .auth-form-container {
-        padding-left: 15% !important;
-        padding-right: 15% !important;
-
-        margin-top: 0 !important;
-        border-radius: 0 !important;
-        box-shadow: none !important;
-
-    }
-
-    .auth-form-container>div {
-        width: 100%;
-        max-width: 400px;
-        margin-left: auto;
-        margin-right: auto;
+        margin-bottom: 0.5rem;
     }
 }
