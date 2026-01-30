@@ -4,6 +4,7 @@ import ReviewerActionBar from "../components/reviewer/home/ReviewerActionBar";
 import ShortcutSidebar from "../components/reviewer/home/ShortcutSidebar";
 import ProjectCard from "../components/reviewer/home/ProjectCard";
 import CommonHeader from "../components/home/CommonHeader";
+import projectService from "../services/reviewer/project.service";
 
 const ReviewerContainer = () => {
   const [projects, setProjects] = useState([]);
@@ -52,7 +53,7 @@ const ReviewerContainer = () => {
                 <ProjectCard
                   key={item.id}
                   project={item}
-                  onReview={(id) => {}}
+                  onReview={() => {}}
                 />
               ))
             ) : (

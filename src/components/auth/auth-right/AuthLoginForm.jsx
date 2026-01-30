@@ -103,6 +103,7 @@ const AuthLoginForm = () => {
               type="button"
               className="btn border-0"
               onClick={() => setShowPassword(!showPassword)}
+              aria-label="toggle password visibility"
             >
               <i
                 className={showPassword ? "ri-eye-off-fill" : "ri-eye-fill"}
