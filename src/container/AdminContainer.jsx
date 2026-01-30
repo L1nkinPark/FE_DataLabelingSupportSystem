@@ -5,13 +5,14 @@ import { userService } from "../services/manager/project/userService";
 import UserManagementView from "../components/admin/home/UserManagementView";
 import AdminHeader from "../components/admin/home/AdminHeader";
 import LogsView from "../components/admin/home/LogsView";
+import SettingsView from "../components/admin/home/SettingsView";
 
 const AdminContainer = () => {
   const [activeTab, setActiveTab] = useState("users");
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [, setIsModalOpen] = useState(false);
 
   const fetchUsers = async () => {
     setLoading(true);

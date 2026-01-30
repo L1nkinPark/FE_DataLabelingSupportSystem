@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, within } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
@@ -71,12 +71,11 @@ describe("Header Component - Comprehensive Suite", () => {
 
     it("nên tương tác đầy đủ với Dropdown Profile", async () => {
       renderHeader();
-      const toggle = document.querySelector("#page-header-user-dropdown");
+      // Dropdown toggle contains user name
+      const toggle = screen.getByText("Nguyễn Văn A");
       fireEvent.click(toggle);
-      const menu = screen.getByTestId("user-profile-menu");
-      const profileLink = within(menu)
-        .getByText(/Profile/i)
-        .closest("a");
+
+      const profileLink = screen.getByText(/Hồ sơ cá nhân/i).closest("a");
       expect(profileLink).toHaveAttribute("href", "/profile");
     });
   });
@@ -84,7 +83,7 @@ describe("Header Component - Comprehensive Suite", () => {
   describe("Hệ thống Search & Actions", () => {
     it("nên cho phép nhập từ khóa vào ô Search", () => {
       renderHeader();
-      const searchInput = screen.getByPlaceholderText(/Search\.\.\./i);
+      const searchInput = screen.getByPlaceholderText(/Tìm kiếm\.\.\./i);
       fireEvent.change(searchInput, { target: { value: "Báo cáo" } });
       expect(searchInput.value).toBe("Báo cáo");
     });
@@ -102,10 +101,10 @@ describe("Header Component - Comprehensive Suite", () => {
       const spyDispatch = vi.spyOn(store, "dispatch");
       renderHeader();
 
-      const toggle = document.querySelector("#page-header-user-dropdown");
+      const toggle = screen.getByText("Nguyễn Văn A");
       fireEvent.click(toggle);
 
-      const logoutBtn = screen.getByRole("button", { name: /logout/i });
+      const logoutBtn = screen.getByText(/Đăng xuất/i);
       fireEvent.click(logoutBtn);
 
       expect(spyDispatch).toHaveBeenCalled();

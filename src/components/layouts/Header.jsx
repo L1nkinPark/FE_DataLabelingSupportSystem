@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Container, Dropdown, Form, InputGroup, Button } from "react-bootstrap";
 import {
   LogOut,
@@ -162,6 +162,7 @@ const Header = ({ toggleSidebar, sidebarSize }) => {
                 variant="light"
                 className="bg-transparent border-0 p-2 shadow-none rounded-circle"
                 onClick={handleFullscreen}
+                aria-label="Fullscreen"
               >
                 {isFullscreen ? (
                   <Minimize size={20} className="text-muted" />
