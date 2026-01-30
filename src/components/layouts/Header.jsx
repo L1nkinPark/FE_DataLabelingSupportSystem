@@ -166,7 +166,6 @@ const Header = ({ toggleSidebar, sidebarSize }) => {
                 )}
               </Button>
 
-              NGÔN NGỮ - Mũi tên nhỏ mảnh */}
               <Dropdown>
                 <Dropdown.Toggle
                   variant="light"
@@ -242,7 +241,6 @@ const Header = ({ toggleSidebar, sidebarSize }) => {
                 style={{ height: "20px" }}
               ></div>
 
-              USER PROFILE - Mũi tên to đậm */}
               {isAuthenticated && user && (
                 <Dropdown align="end">
                   <Dropdown.Toggle
