@@ -2,7 +2,11 @@ import React from "react";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
+import { Provider } from "react-redux";
+import configureStore from "redux-mock-store";
 import ReviewerPage from "./ReviewerPage";
+
+const mockStore = configureStore([]);
 
 const getReviewProjectsMock = vi.fn();
 const getReviewerStatsMock = vi.fn();
@@ -71,10 +75,21 @@ describe("ReviewerPage", () => {
     getReviewProjectsMock.mockRejectedValue(forbiddenError);
     getReviewerStatsMock.mockRejectedValue(forbiddenError);
 
+    const store = mockStore({
+      auth: {
+        user: {
+          id: "user-123",
+          roles: ["Reviewer"],
+        },
+      },
+    });
+
     render(
-      <MemoryRouter>
-        <ReviewerPage />
-      </MemoryRouter>,
+      <Provider store={store}>
+        <MemoryRouter>
+          <ReviewerPage />
+        </MemoryRouter>
+      </Provider>,
     );
 
     await waitFor(() => {
