@@ -198,7 +198,8 @@ async function ensureStarted() {
           debugLog("[SignalR Manager] Connected!");
         }
       } catch (err) {
-        if (isUnauthorizedSignalRError(err)) {
+        let finalErr = err;
+        if (isUnauthorizedSignalRError(finalErr)) {
           try {
             await refreshAccessToken();
 
@@ -215,18 +216,18 @@ async function ensureStarted() {
               return;
             }
           } catch (refreshError) {
-            err = refreshError;
+            finalErr = refreshError;
           }
         }
 
         const shouldSilenceError =
           manualStopRequested ||
           subscriberCount === 0 ||
-          isNegotiationAbortError(err) ||
-          isAlreadyStartingSignalRError(err);
+          isNegotiationAbortError(finalErr) ||
+          isAlreadyStartingSignalRError(finalErr);
 
         if (!shouldSilenceError) {
-          console.error("[SignalR Manager] Connection failed:", err);
+          console.error("[SignalR Manager] Connection failed:", finalErr);
         }
 
         if (!manualStopRequested) {
