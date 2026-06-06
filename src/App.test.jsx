@@ -63,7 +63,7 @@ describe("App Integration - Security & Roles", () => {
     );
 
     await waitFor(() => {
-      const loginButtons = screen.getAllByText(/Đăng nhập/i);
+      const loginButtons = screen.getAllByText(/landing.login/i);
       expect(loginButtons.length).toBeGreaterThan(0);
     });
   });
@@ -83,11 +83,11 @@ describe("App Integration - Security & Roles", () => {
     );
 
     await waitFor(() => {
-      const loginButton = screen.getByRole("button", { name: /Đăng nhập/i });
+      const loginButton = screen.getByRole("button", { name: /auth.login/i });
       expect(loginButton).toBeInTheDocument();
     });
 
-    expect(screen.getByPlaceholderText(/Nhập tài khoản/i)).toBeInTheDocument();
+    expect(screen.getByPlaceholderText(/auth.emailPlaceholder/i)).toBeInTheDocument();
   });
 
   it("nên hiển thị Header và Dashboard khi Admin đã đăng nhập", async () => {
@@ -110,12 +110,12 @@ describe("App Integration - Security & Roles", () => {
 
     await waitFor(
       () => {
-        expect(screen.getByText(/Anna/i)).toBeInTheDocument();
+        expect(screen.getByRole("img", { name: /avatar/i })).toBeInTheDocument();
       },
       { timeout: 8000 },
     );
 
-    expect(screen.getByPlaceholderText(/Tìm kiếm\.\.\./i)).toBeInTheDocument();
+    expect(screen.getByPlaceholderText(/header.search/i)).toBeInTheDocument();
   });
 
   it("nên tự động chuyển hướng về trang landing khi truy cập trang bảo mật mà chưa đăng nhập", async () => {
@@ -132,9 +132,7 @@ describe("App Integration - Security & Roles", () => {
       </Provider>,
     );
 
-    const loginButton = await screen.findByRole("button", {
-      name: /Đăng nhập/i,
-    });
+    const loginButton = await screen.findByText(/authLeft.precision/i);
     expect(loginButton).toBeInTheDocument();
   });
 });
