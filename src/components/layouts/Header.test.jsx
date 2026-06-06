@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor, act } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
@@ -11,6 +11,13 @@ vi.mock("react-router-dom", async () => {
   const actual = await vi.importActual("react-router-dom");
   return { ...actual, useNavigate: () => mockedNavigate };
 });
+
+vi.mock("../../services/axios.customize", () => ({
+  default: {
+    get: vi.fn().mockResolvedValue({ data: [] }),
+    post: vi.fn().mockResolvedValue({ data: {} }),
+  },
+}));
 
 describe("Header Component - Comprehensive Suite", () => {
   let store;
@@ -40,26 +47,31 @@ describe("Header Component - Comprehensive Suite", () => {
     }
   });
 
-  const renderHeader = () =>
-    render(
-      <Provider store={store}>
-        <BrowserRouter>
-          <Header sidebarSize="lg" toggleSidebar={vi.fn()} />
-        </BrowserRouter>
-      </Provider>,
-    );
+  const renderHeader = async () => {
+    await act(async () => {
+      render(
+        <Provider store={store}>
+          <BrowserRouter>
+            <Header sidebarSize="lg" toggleSidebar={vi.fn()} />
+          </BrowserRouter>
+        </Provider>,
+      );
+    });
+  }
 
   describe("UI & Profile Dropdown", () => {
-    it("nên hiển thị thông tin User chính xác", () => {
-      renderHeader();
+    it("nên hiển thị thông tin User chính xác", async () => {
+      await renderHeader();
       expect(screen.getByText("Nguyễn Văn A")).toBeInTheDocument();
     });
 
     it("nên tương tác đầy đủ với Dropdown Profile", async () => {
-      renderHeader();
+      await renderHeader();
 
       const profileToggle = screen.getByText(/Nguyễn Văn A/i);
-      fireEvent.click(profileToggle);
+      await act(async () => {
+        fireEvent.click(profileToggle);
+      });
 
       await waitFor(() => {
         expect(screen.getByText("staff1@gmail.com")).toBeInTheDocument();
@@ -76,15 +88,15 @@ describe("Header Component - Comprehensive Suite", () => {
   });
 
   describe("Hệ thống Search & Actions", () => {
-    it("nên cho phép nhập từ khóa vào ô Search", () => {
-      renderHeader();
+    it("nên cho phép nhập từ khóa vào ô Search", async () => {
+      await renderHeader();
       const searchInput = screen.getByPlaceholderText(/header.search/i);
       fireEvent.change(searchInput, { target: { value: "Báo cáo" } });
       expect(searchInput.value).toBe("Báo cáo");
     });
 
     it("nên kích hoạt Fullscreen khi nhấn nút", async () => {
-      renderHeader();
+      await renderHeader();
       const fullscreenBtn = screen.getByLabelText(/Fullscreen/i);
       fireEvent.click(fullscreenBtn);
       expect(document.documentElement.requestFullscreen).toHaveBeenCalled();
@@ -96,12 +108,16 @@ describe("Header Component - Comprehensive Suite", () => {
       const spyDispatch = vi.spyOn(store, "dispatch");
       vi.spyOn(window, "confirm").mockImplementation(() => true);
 
-      renderHeader();
+      await renderHeader();
 
-      fireEvent.click(screen.getByText("Nguyễn Văn A"));
+      await act(async () => {
+        fireEvent.click(screen.getByText("Nguyễn Văn A"));
+      });
 
       const logoutBtn = screen.getByText(/header.logout/i);
-      fireEvent.click(logoutBtn);
+      await act(async () => {
+        fireEvent.click(logoutBtn);
+      });
 
       expect(spyDispatch).toHaveBeenCalled();
     });

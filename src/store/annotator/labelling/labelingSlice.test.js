@@ -10,7 +10,7 @@ import labelingReducer, {
 describe("labelingSlice", () => {
   const initialState = {
     selectedLabel: null,
-    annotationsByAssignment: {},
+    annotationsByAssignment: {}, undoStack: [],
   };
 
   it("nên xử lý setSelectedLabel", () => {
