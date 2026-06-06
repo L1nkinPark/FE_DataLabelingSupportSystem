@@ -24,7 +24,7 @@ describe("Header Component - Comprehensive Suite", () => {
           state = {
             isAuthenticated: true,
             user: {
-              name: "Nguyễn Văn A",
+              fullName: "Nguyễn Văn A",
               role: "Manager",
               email: "staff1@gmail.com",
             },
@@ -52,7 +52,7 @@ describe("Header Component - Comprehensive Suite", () => {
   describe("UI & Profile Dropdown", () => {
     it("nên hiển thị thông tin User chính xác", () => {
       renderHeader();
-      expect(screen.getByText(/Nguyễn Văn A/i)).toBeInTheDocument();
+      expect(screen.getByText("Nguyễn Văn A")).toBeInTheDocument();
     });
 
     it("nên tương tác đầy đủ với Dropdown Profile", async () => {
@@ -62,10 +62,10 @@ describe("Header Component - Comprehensive Suite", () => {
       fireEvent.click(profileToggle);
 
       await waitFor(() => {
-        expect(screen.getByText(/staff1@gmail.com/i)).toBeInTheDocument();
+        expect(screen.getByText("staff1@gmail.com")).toBeInTheDocument();
 
-        const profileLink = screen.getByText(/Hồ sơ cá nhân/i);
-        const logoutBtn = screen.getByText(/Đăng xuất/i);
+        const profileLink = screen.getByText(/header.profile/i);
+        const logoutBtn = screen.getByText(/header.logout/i);
 
         expect(profileLink).toBeInTheDocument();
         expect(logoutBtn).toBeInTheDocument();
@@ -78,7 +78,7 @@ describe("Header Component - Comprehensive Suite", () => {
   describe("Hệ thống Search & Actions", () => {
     it("nên cho phép nhập từ khóa vào ô Search", () => {
       renderHeader();
-      const searchInput = screen.getByPlaceholderText(/Tìm kiếm\.\.\./i);
+      const searchInput = screen.getByPlaceholderText(/header.search/i);
       fireEvent.change(searchInput, { target: { value: "Báo cáo" } });
       expect(searchInput.value).toBe("Báo cáo");
     });
@@ -100,7 +100,7 @@ describe("Header Component - Comprehensive Suite", () => {
 
       fireEvent.click(screen.getByText("Nguyễn Văn A"));
 
-      const logoutBtn = screen.getByText(/Đăng xuất/i);
+      const logoutBtn = screen.getByText(/header.logout/i);
       fireEvent.click(logoutBtn);
 
       expect(spyDispatch).toHaveBeenCalled();
