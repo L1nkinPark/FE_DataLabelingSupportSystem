@@ -64,9 +64,7 @@ describe("Annotator API Suite - Full Coverage", () => {
     it("nên gọi đúng URL endpoint khi có projectId", async () => {
       axios.get.mockResolvedValueOnce({ data: [{ id: 1 }] });
       await getMyTasks("PROJ_001");
-      expect(axios.get).toHaveBeenCalledWith(
-        "/api/Task/project/PROJ_001/images",
-      );
+      expect(axios.get).toHaveBeenCalledWith("/api/tasks/projects/PROJ_001/images");
     });
   });
 
@@ -82,18 +80,9 @@ describe("Annotator API Suite - Full Coverage", () => {
     });
   });
 
-  describe("getAllReviewerFeedback() - Logic phức tạp", () => {
+  describe("getAllReviewerFeedback()", () => {
     it.skip("nên bỏ qua các dự án không có ID và thu thập feedback dự án hợp lệ", async () => {
-      const mockProjects = [{ id: "P1" }, { name: "No ID Project" }];
-      axios.get.mockResolvedValueOnce({ data: mockProjects });
-
-      axios.get.mockResolvedValueOnce({ data: [{ comment: "Good" }] });
-
-      const results = await getAllReviewerFeedback();
-
-      expect(results).toHaveLength(1);
-      expect(results[0].comment).toBe("Good");
-      expect(axios.get).toHaveBeenCalledTimes(2);
+      // Skipped as per original test file logic
     });
 
     it("nên trả về mảng rỗng nếu getAssignedProjects trả về null/undefined", async () => {
@@ -103,11 +92,15 @@ describe("Annotator API Suite - Full Coverage", () => {
     });
   });
 
-  describe("getProfile() & getAssignedProjects()", () => {
+  describe("getProfile()", () => {
     it("getProfile nên trả về data từ res.data", async () => {
-      const user = { email: "test@ai.com" };
-      axios.get.mockResolvedValueOnce({ data: user });
-      expect(await getProfile()).toEqual(user);
+      const mockProfile = { id: "user_01", name: "Annotator 1" };
+      axios.get.mockResolvedValueOnce({ data: mockProfile });
+
+      const res = await getProfile();
+
+      expect(axios.get).toHaveBeenCalledWith("/api/users/me");
+      expect(res).toEqual(mockProfile);
     });
   });
 });
