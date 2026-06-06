@@ -31,9 +31,9 @@ describe("analyticsService - Full Coverage", () => {
 
   describe("getDashboardStats() - Aggregation logic", () => {
     it("Success: aggregate data from multiple projects", async () => {
-      axios.get.mockResolvedValueOnce({
-        data: [{ id: "P1" }, { id: "P2" }],
-      });
+      axios.get
+        .mockResolvedValueOnce({ data: [{ id: "P1" }, { id: "P2" }] }) // resProjects
+        .mockResolvedValueOnce({ data: { totalMembers: 5 } }); // resManagerStats
 
       axios.get
         .mockResolvedValueOnce({
@@ -46,14 +46,13 @@ describe("analyticsService - Full Coverage", () => {
       const stats = await analyticsService.getDashboardStats("test-manager-id");
 
       expect(stats.totalProjects).toBe(2);
-      expect(stats.totalAssignments).toBe(30);
-      expect(stats.completed).toBe(15);
+      expect(stats.inProgress).toBe(2);
     });
 
     it("Error 400: skip errored projects and continue", async () => {
-      axios.get.mockResolvedValueOnce({
-        data: [{ id: "P1" }, { id: "P2" }],
-      });
+      axios.get
+        .mockResolvedValueOnce({ data: [{ id: "P1" }, { id: "P2" }] })
+        .mockResolvedValueOnce({ data: { totalMembers: 5 } });
 
       const error400 = { response: { status: 400 } };
       axios.get
@@ -63,11 +62,14 @@ describe("analyticsService - Full Coverage", () => {
       const stats = await analyticsService.getDashboardStats("test-manager-id");
 
       expect(stats.totalProjects).toBe(2);
-      expect(stats.totalAssignments).toBe(5);
+      expect(stats.inProgress).toBe(1);
     });
 
     it("Critical error (500): stop and throw", async () => {
-      axios.get.mockResolvedValueOnce({ data: [{ id: "P1" }] });
+      axios.get
+        .mockResolvedValueOnce({ data: [{ id: "P1" }] })
+        .mockResolvedValueOnce({ data: null });
+
       axios.get.mockRejectedValueOnce(new Error("Database Crash"));
 
       await expect(
@@ -76,12 +78,14 @@ describe("analyticsService - Full Coverage", () => {
     });
 
     it("No projects: return zeroed object", async () => {
-      axios.get.mockResolvedValueOnce({ data: [] });
+      axios.get
+        .mockResolvedValueOnce({ data: [] })
+        .mockResolvedValueOnce({ data: null });
 
       const stats = await analyticsService.getDashboardStats("test-manager-id");
 
       expect(stats.totalProjects).toBe(0);
-      expect(stats.totalAssignments).toBe(0);
+      expect(stats.inProgress).toBe(0);
     });
   });
 
@@ -89,7 +93,7 @@ describe("analyticsService - Full Coverage", () => {
     it("should call correct users endpoint", async () => {
       axios.get.mockResolvedValueOnce({ data: [] });
       await analyticsService.getUsers();
-      expect(axios.get).toHaveBeenCalledWith("/api/users");
+      expect(axios.get).toHaveBeenCalledWith("/api/users?page=1&pageSize=100");
     });
   });
 });
