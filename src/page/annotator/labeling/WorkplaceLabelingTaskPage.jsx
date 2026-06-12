@@ -1032,7 +1032,7 @@ const WorkplaceLabelingTaskPage = () => {
                   </div>
                 </div>
                 {images.map((img, idx) => {
-                  const config = STATUS_CONFIG[img.status] || STATUS_CONFIG.New;
+                  const config = STATUS_CLASSES[img.status] || STATUS_CLASSES.New;
                   const isEligible =
                     img.status !== "Submitted" && img.status !== "Approved";
                   const reduxAnns = allAnnotations[img.id];
