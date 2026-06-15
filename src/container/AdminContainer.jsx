@@ -71,6 +71,7 @@ const AdminContainer = () => {
       fetchUsers(page);
       fetchSelf();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTab, page]);
 
   const handleSearch = (searchTerm) => {

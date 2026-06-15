@@ -13,6 +13,7 @@ const ManagerContainer = () => {
   const [data, setData] = useState(null);
   const { user } = useSelector((state) => state.auth);
   const managerId = user?.id;
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (managerId) {
@@ -29,8 +30,6 @@ const ManagerContainer = () => {
         </div>
       </div>
     );
-
-  const { t } = useTranslation();
 
   return (
     <Container fluid className="p-4 bg-light min-vh-100">
